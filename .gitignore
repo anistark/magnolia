@@ -22,3 +22,12 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# Go
+.godeps
+gin-bin
+.sass-cache
+.module-cache
+
+# Environment File
+.env
