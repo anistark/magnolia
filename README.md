@@ -1,6 +1,6 @@
 # Magnolia
 
-### Under Development
+*Under Development.*
 
 ## Building image
 
