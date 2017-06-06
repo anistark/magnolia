@@ -2,20 +2,30 @@
 
 *Under Development.*
 
-## Building image
+
+## Run
+
+```
+go run main.go
+```
+
+## Run with Docker
+
+### Building image
 
 ```
 docker build -t magnolia .
 ```
 
-## Run Docker image
+### Run Docker image
 
 ```
 docker run -p 8000:8080 --name magnolia_container magnolia
 ```
 
-## Stop the container
+### Stop the container
 
 ```
 docker stop [id of the container]
 ```
+

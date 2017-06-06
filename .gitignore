@@ -29,5 +29,14 @@ gin-bin
 .sass-cache
 .module-cache
 
+# Config File
+config/config.json
+
 # Environment File
 .env
+
+# Idea Files
+.idea
+
+# Misc
+
