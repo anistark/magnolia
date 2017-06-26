@@ -3,6 +3,13 @@
 *Under Development.*
 
 
+## Setup
+
+```
+cp config/config_sample.json config/config/json
+```
+
+
 ## Run
 
 ```
