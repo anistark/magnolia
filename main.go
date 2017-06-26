@@ -1,21 +1,3 @@
-//package main
-//
-//import (
-//	"fmt"
-//	"net/http"
-//	"runtime"
-//)
-//
-//func indexHandler(w http.ResponseWriter, r *http.Request) {
-//	fmt.Fprintf(w, "hello world, I'm running on %s with an %s CPU ", runtime.GOOS, runtime.GOARCH)
-//}
-//
-//func main() {
-//	http.HandleFunc("/", indexHandler)
-//	fmt.Println("Server started at http://localhost:8080")
-//	http.ListenAndServe(":8080", nil)
-//}
-
 package main
 
 import (
@@ -24,15 +6,29 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"encoding/json"
 )
+
+type Payload struct {
+	Stuff Data
+}
+
+type Data struct {
+	Veggies Vegetables
+}
+
+type Vegetables map[string]int
+
 
 func main() {
 	r := gorouter.New(Root)
 	//r.Use(fooMiddleware, barMiddleware, gorouter.Static()) // add global/router level middleware to run on every route.
+	// Base Route
 	r.Handle("GET", "/", Root)
+	// User Routes
 	r.Handle("GET", "/users", Users)
-	r.Handle("GET", "/users/:name", UserShow)
-	r.Handle("GET", "/users/:name/blog/new", UserBlogShow)
+	//r.Handle("GET", "/users/:name", UserShow)
+	//r.Handle("GET", "/users/:name/blog/new", UserBlogShow)
 	r.EnableLogging(os.Stdout) // Enable Router Logging to view on console.
 	//http.ListenAndServe(":8080", r)
 	r.Run(":8080") // Run Server
@@ -53,7 +49,12 @@ func Root(w http.ResponseWriter, r *http.Request, params url.Values) {
 }
 
 func Users(w http.ResponseWriter, r *http.Request, params url.Values) {
-	fmt.Fprint(w, "Users!\n")
+	//fmt.Fprint(w, "Users!\n")
+	response, err := getJsonResponse();
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, string(response))
 }
 
 func UserShow(w http.ResponseWriter, r *http.Request, params url.Values) {
@@ -62,4 +63,15 @@ func UserShow(w http.ResponseWriter, r *http.Request, params url.Values) {
 
 func UserBlogShow(w http.ResponseWriter, r *http.Request, params url.Values) {
 	fmt.Fprintf(w, "This is %s Blog", params["name"])
+}
+
+func getJsonResponse()([]byte, error) {
+	vegetables := make(map[string]int)
+	vegetables["Carrats"] = 10
+	vegetables["Beets"] = 0
+
+	d := Data{vegetables}
+	p := Payload{d}
+
+	return json.MarshalIndent(p, "", "  ")
 }
